@@ -43,7 +43,7 @@ const CallingPage = () => {
         </button> */}
     
       {/* <div className=" mt-10 pb-48  "> */}
-      <div className="grid grid-cols-3 gap-10 bg-gray-900 bg-transparent bg-opacity-10 text-4xl rounded-3xl p-10 mb-44 ">
+      <div className="grid grid-cols-3 gap-10 bg-black bg-transparent bg-opacity-15 text-4xl rounded-3xl p-10 mb-44 ">
         <button className=" text-black px-4 py-2 rounded" onClick={handleToggleRecording}>
           {isRecording ? <FaRegStopCircle /> : <FaRegPlayCircle />}
         </button>

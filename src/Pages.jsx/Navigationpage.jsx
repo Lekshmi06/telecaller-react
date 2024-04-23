@@ -10,10 +10,16 @@ const Navigation = () => {
             <Link to="/login">Login</Link>
           </li>
           <li className='bg-blue-300 text-white'>
+            <Link to="/popup">Popup</Link>
+          </li>
+          <li className='bg-blue-300 text-white'>
             <Link to="/landing">Landing</Link>
           </li>
           <li className='bg-blue-300 text-white'>
             <Link to="/register">Register</Link>
+          </li>
+          <li className='bg-blue-300 text-white'>
+            <Link to="/details">Lead Details</Link>
           </li>
           <li className='bg-blue-300 text-white'>
             <Link to="/telecaller">Telecaller Page</Link>
