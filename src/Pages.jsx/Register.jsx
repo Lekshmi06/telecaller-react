@@ -1,13 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
+  const navigate = useNavigate()
+  const handleNavigation = () => {
+    navigate("/login")
+  }
   return (
     <div className="min-h-screen bg-[#5a70f0] flex flex-col  items-center justify-center ">
     {/* <div className='bg-[#818fdf] w-screen h-20 rounded-tr-[30px]'> </div> */}
     <div className='flex flex-col gap-11 mt-30'>
   <div className="bg-white p-8 rounded-tr-[100px] rounded-bl-[100px] mt-28 w-full sm:w-96">
     
-    <h2 className="text-2xl font-bold mb-6 text-blue-500">Login</h2>
+    <h2 className="text-2xl font-bold mb-6 text-blue-500">Register</h2>
     <form>
     <div className="mb-4">
         <label htmlFor="name" className="block text-sm font-medium  text-blue-500">Username</label>
@@ -75,8 +80,8 @@ function Register() {
   </div>
   <div className="p-8   flex gap-3">
     
-      <p className="text-sm text-blue-100">Already have an account? <a href="/login" className="font-medium text-blue-100 hover:text-blue-600">Sign in</a></p>
-      <button type="submit" className="  text-blue-100  border border-blue-100 rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Sign up</button>
+      <p onClick={handleNavigation} className="text-sm text-blue-100">Already have an account? <a href="/login" className="font-medium text-blue-100 hover:text-blue-600">Sign in</a></p>
+      <button onClick={handleNavigation} type="submit" className="  text-blue-100  border border-blue-100 rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Sign up</button>
       </div>
       </div>
 </div>

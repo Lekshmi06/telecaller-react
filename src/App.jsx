@@ -15,9 +15,9 @@ function App() {
    
     <Routes>
      {/* <Route element = {<Sidebar />}  > */}
-        <Route index element = {<Navigation />}/>
+         <Route path= "/navigate" element = {<Navigation />}/> 
         <Route path = "/landing" element = {<Landing/>} />
-         <Route path = "/register" element = {<Register/>} />
+         <Route index element = {<Register/>} />
        <Route path = "/telecaller" element = {<TelecallerPage/>} />
          <Route path = "/login" element = {<Login/>} />
         <Route path = "/calling" element = {<CallingPage/>} />

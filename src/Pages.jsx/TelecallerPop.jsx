@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const TelecallerPopup = () => {
   const [followUpDate, setFollowUpDate] = useState('');
@@ -10,6 +11,11 @@ const TelecallerPopup = () => {
   const handleSaveRecordingToggle = () => {
     setSaveRecording(!saveRecording);
   };
+
+  const navigate = useNavigate()
+  const handleNavigation = () => {
+    navigate("/telecaller")
+  }
 
   const handleSavePopup = () => {
     // Logic to save the popup data
@@ -28,9 +34,9 @@ const TelecallerPopup = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg p-8 w-96 shadow-lg">
-        <h2 className="text-lg font-semibold text-white mb-4">Call End Pop-Up</h2>
+    <div className=" flex  ">
+      <div className="bg-gradient-to-br from-indigo-600 to-purple-600 pt-[50%] p-8 w-screen h-screen item-center shadow-lg">
+        <h2 className="text-3xl font-semibold text-white mb-10 ml-24">Update Call</h2>
         <div className="mb-4">
           <label htmlFor="followUpDate" className="block text-white mb-1">Follow-up Date</label>
           <input type="date" id="followUpDate" className="w-full border border-white border-opacity-50 rounded px-3 py-2 bg-transparent text-white" value={followUpDate} onChange={e => setFollowUpDate(e.target.value)} />
@@ -41,13 +47,14 @@ const TelecallerPopup = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="status" className="block text-white mb-1">Current Status</label>
-          <select id="status" className="w-full border border-white border-opacity-50 rounded px-3 py-2 bg-transparent text-white" value={status} onChange={e => setStatus(e.target.value)}>
-            <option value="">Select Status</option>
-            <option value="Interested">Interested</option>
-            <option value="Not Interested">Not Interested</option>
-            <option value="Callback Needed">Callback Needed</option>
+          <select id="status" className="w-48 border border-white border-opacity-50 bg-transparent text-white rounded px-3 py-2" value={status} onChange={e => setStatus(e.target.value)}>
+            <option className='text-black hover:bg-gray-400'  value="">Select Status</option>
+            <option className='text-black hover:bg-gray-400'  value="Interested">Interested</option>
+            <option className='text-black hover:bg-gray-400'  value="Not Interested">Not Interested</option>
+            <option className='text-black hover:bg-gray-400'  value="Callback Needed">Callback Needed</option>
           </select>
         </div>
+
         <div className="mb-4">
           <label className="inline-flex items-center text-white">
             <input type="checkbox" className="form-checkbox" checked={saveRecording} onChange={handleSaveRecordingToggle} />
@@ -59,7 +66,7 @@ const TelecallerPopup = () => {
           <textarea id="notes" className="w-full border border-white border-opacity-50 rounded px-3 py-2 bg-transparent text-white" value={notes} onChange={e => setNotes(e.target.value)}></textarea>
         </div>
         <div className="text-right">
-          <button className="bg-white text-indigo-600 px-4 py-2 rounded hover:bg-indigo-700 hover:text-white mr-2" onClick={handleSavePopup}>Save</button>
+          <button className="bg-white text-indigo-600 px-4 py-2 rounded hover:bg-indigo-700 hover:text-white mr-2" onClick={handleNavigation}>Save</button>
           <button className="bg-white text-gray-600 px-4 py-2 rounded hover:bg-gray-300" onClick={() => console.log('Popup closed')}>Cancel</button>
         </div>
       </div>

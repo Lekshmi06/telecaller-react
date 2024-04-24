@@ -1,7 +1,15 @@
 import React from 'react';
 import { FaGoogle,FaApple ,FaFacebookSquare } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate()
+  const handleNavigation = () => {
+    navigate("/")
+  }
+  const handleLead = () => {
+    navigate("/telecaller")
+  }
   return (
     <div className="min-h-screen bg-[#5a70f0] flex flex-col  items-center justify-center ">
         {/* <div className='bg-[#818fdf] w-screen h-20 rounded-tr-[30px]'> </div> */}
@@ -53,8 +61,8 @@ function Login() {
       </div>
       <div className="p-8   flex gap-3">
         
-          <p className="text-sm text-blue-100">Don't have an account? <a href="#" className="font-medium text-blue-100 hover:text-blue-600">Sign up</a></p>
-          <button type="submit" className="  text-blue-100  border border-blue-100 rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Sign in</button>
+          <p onClick={handleNavigation} className="text-sm text-blue-100">Don't have an account? <a href="#" className="font-medium text-blue-100 hover:text-blue-600">Sign up</a></p>
+          <button onClick={handleLead} type="submit" className="  text-blue-100  border border-blue-100 rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Sign in</button>
           </div>
           </div>
     </div>
