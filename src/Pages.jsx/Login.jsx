@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaGoogle,FaApple ,FaFacebookSquare } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { IoLogoElectron } from "react-icons/io5";
 
 function Login() {
   const navigate = useNavigate()
@@ -12,6 +13,7 @@ function Login() {
   }
   return (
     <div className="min-h-screen bg-[#5a70f0] flex flex-col  items-center justify-center ">
+      <div className='mb-30 pr-48  flex items-center  text-white'><div className='text-7xl'><  IoLogoElectron /></div> <div className='text-2xl font-mono'>Telecall</div></div>
         {/* <div className='bg-[#818fdf] w-screen h-20 rounded-tr-[30px]'> </div> */}
         <div className='flex flex-col gap-11 mt-30'>
       <div className="bg-white p-8 rounded-tr-[100px] rounded-bl-[100px] mt-28 w-full sm:w-96">

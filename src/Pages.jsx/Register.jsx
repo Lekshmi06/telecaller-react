@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { IoLogoElectron } from "react-icons/io5";
+import { FaGoogle,FaApple ,FaFacebookSquare } from "react-icons/fa";
 
 function Register() {
   const navigate = useNavigate()
@@ -8,8 +10,9 @@ function Register() {
   }
   return (
     <div className="min-h-screen bg-[#5a70f0] flex flex-col  items-center justify-center ">
+        <div className=' pr-48  flex items-center  text-white'><div className='text-7xl'><  IoLogoElectron /></div> <div className='text-2xl font-mono'>Telecall</div></div>
     {/* <div className='bg-[#818fdf] w-screen h-20 rounded-tr-[30px]'> </div> */}
-    <div className='flex flex-col gap-11 mt-30'>
+    <div className='flex flex-col gap-11'>
   <div className="bg-white p-8 rounded-tr-[100px] rounded-bl-[100px] mt-28 w-full sm:w-96">
     
     <h2 className="text-2xl font-bold mb-6 text-blue-500">Register</h2>
@@ -71,11 +74,15 @@ function Register() {
       
     </form>
     <div className="">
-     
-     
-     
-     
-    </div>
+         
+         
+          <div className="mt-1 grid grid-cols-3 ">
+            <button className="w-full  rounded-md py-2 px-4 text-black hover:bg-blue-900 focus:outline-none focus:bg-blue-900"><FaFacebookSquare /></button>
+            <button className="w-ful text-black rounded-md py-2 px-4 hover:bg-red-700 focus:outline-none focus:bg-red-700"><FaGoogle /></button>
+            <button className="w-full  text-black rounded-md py-2 px-4 hover:bg-gray-800 focus:outline-none focus:bg-gray-800"><FaApple /></button>
+          </div>
+         
+        </div>
     
   </div>
   <div className="p-8   flex gap-3">

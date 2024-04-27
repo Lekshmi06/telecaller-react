@@ -27,6 +27,9 @@ const Navigation = () => {
           <li className='bg-blue-300 text-white'>
             <Link to="/calling">Calling interface</Link>
           </li >
+          <li className='bg-blue-300 text-white'>
+            <Link to="/landing">check landing</Link>
+          </li >
           {/* Add more links for additional pages */}
         </ul>
       </div>
