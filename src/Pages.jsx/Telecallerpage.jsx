@@ -1,31 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoCallOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { RiSearchLine } from "react-icons/ri";
+import Cookies from "js-cookie";
+import jwtDecode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 
-const leads = [
-  { name: 'Subash', lastCalled: '2 hours ago', followUp: '1 hour ago', type:  ['today','assigned']  },
-  { name: 'Suresh', lastCalled: 'Yesterday', followUp: '2 hours ago', type:  ['today','assigned']  },
-  { name: 'Suvarna', lastCalled: '2 days ago', followUp: '1 day ago', type: ['today','assigned'] },
-  { name: 'John', lastCalled: '3 hours ago', followUp: '2 hours ago', type: ['followup','assigned'] },
-  { name: 'Alice', lastCalled: '4 hours ago', followUp: '3 hours ago', type: ['followup','assigned' ]},
-  { name: 'Bob', lastCalled: '5 hours ago', followUp: '4 hours ago', type: 'assigned' },
-  { name: 'Emily', lastCalled: '6 hours ago', followUp: '5 hours ago', type: 'assigned' },
-  // Add more leads as needed
-];
-
-
-
-// const getRandomColor = () => {
-//   // Generate a random hex color code
-//   return '#' + Math.floor(Math.random()*16777215).toString(16);
-// };
 
 const TelecallerPage = () => {
-
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('today');
+  const [leadsData, setLeadsData] = useState([]);
+  const access_token = Cookies.get('access_token')
+  useEffect(() => {
+    const userId = jwt_decode(access_token).id;
+
+    const fetchLeads = async () => {
+      let url = '';
+      if (activeSection === 'today') {
+        url = `http://127.0.0.1:8000/leads/todaylead/${userId}/`;
+      } else if (activeSection === 'followup') {
+        url = `http://127.0.0.1:8000/leads/followlead/${userId}/`;
+      } else if (activeSection === 'assigned') {
+        url = `http://127.0.0.1:8000/leads/leadslist/${userId}/`;
+      }
+
+      try {
+        const response = await MakeApiRequest('GET', url);
+        setLeadsData(response.data);
+      } catch (error) {
+        console.error('Error fetching leads:', error);
+      }
+    };
+
+    fetchLeads();
+  }, [activeSection, cookies.jwt]);
 
   const handleDetail = () => {
     navigate("/details");
@@ -35,47 +45,40 @@ const TelecallerPage = () => {
     navigate("/calling");
   };
 
-  const renderLeads = (section) => {
-    return leads
-      // .filter((lead) => lead.type === section)
-      .filter((lead) => lead.type.includes(section))
-      .map((lead, index) => (
-        <div key={index} className="lead-container bg-white rounded-2xl p-4 flex items-center justify-between mb-4 shadow-lg">
-          <div className="flex items-center">
-            <div onClick={handleDetail} className="profile-pic bg-[#a3306d47] mb-6 text-center text-2xl item-center   rounded-xl h-10 w-10">
-              <span className="profile-letter text-[#8d337a] font-semibold text-2xl">{lead.name.charAt(0).toUpperCase()}</span>
-            </div>
-            <div className="lead-details ml-4">
-              <h3 className="text-lg  font-bold">{lead.name}</h3>
-              <p className='text-gray-600'> {lead.lastCalled}</p>
-              <p className='text-gray-700 font-semibold'>Follow up done {lead.followUp}</p>
-            </div>
+  const renderLeads = () => {
+    return leadsData.map((lead, index) => (
+      <div key={index} className="lead-container bg-white rounded-2xl p-4 flex items-center justify-between mb-4 shadow-lg">
+        <div className="flex items-center">
+          <div onClick={handleDetail} className="profile-pic bg-[#a3306d47] mb-6 text-center text-2xl item-center rounded-xl h-10 w-10">
+            <span className="profile-letter text-[#8d337a] font-semibold text-2xl">{lead.lead_name.charAt(0).toUpperCase()}</span>
           </div>
-          <div className="flex items-center bg-blue-100 rounded-full p-2">
-            <IoCallOutline onClick={handleNavigation} className="text-gray-800 font-bold" />
+          <div className="lead-details ml-4">
+            <h3 className="text-lg font-bold">{lead.lead_name}</h3>
+            <p className='text-gray-600'>5 hours ago</p>
+            <p className='text-gray-700 font-semibold'>Follow up done 5 hours ago</p>
           </div>
         </div>
-      ));
+        <div className="flex items-center bg-blue-100 rounded-full p-2">
+          <IoCallOutline onClick={handleNavigation} className="text-gray-800 font-bold" />
+        </div>
+      </div>
+    ));
   };
 
   return (
     <div className="bg-blue-100 min-h-screen">
-        <button
-        className="rounded-full bg-white  text-gray-500 px-4 py-2 ml-80  mt-12 "
-       
+      <button
+        className="rounded-full bg-white text-gray-500 px-4 py-2 ml-80 mt-12"
       >
-        
         <RiSearchLine />
-       
-            
       </button>
       <div className="p-4">
         <div className="">
-        <h1 className="text-3xl pt-10 font-bold">LEADS</h1>
+          <h1 className="text-3xl pt-10 font-bold">LEADS</h1>
           <div className="flex justify-center items-center mt-2 mb-4">
             <div className="flex gap-16">
               <button
-                className={`text-lg text-gray-700  ${activeSection === 'today' && 'font-bold'}`}
+                className={`text-lg text-gray-700 ${activeSection === 'today' && 'font-bold'}`}
                 onClick={() => setActiveSection('today')}
               >
                 Today's
@@ -84,20 +87,21 @@ const TelecallerPage = () => {
                 className={`text-lg text-gray-700 ${activeSection === 'followup' && 'font-bold'}`}
                 onClick={() => setActiveSection('followup')}
               >
-                Follow-up 
+                Follow-up
               </button>
               <button
-                className={`text-lg text-gray-700  ${activeSection === 'assigned' && 'font-bold'}`}
+                className={`text-lg text-gray-700 ${activeSection === 'assigned' && 'font-bold'}`}
                 onClick={() => setActiveSection('assigned')}
               >
-                Assigned 
+                Assigned
               </button>
             </div>
           </div>
-          {renderLeads(activeSection)}
+          {renderLeads()}
         </div>
       </div>
     </div>
   );
 };
+
 export default TelecallerPage;
