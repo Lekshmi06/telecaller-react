@@ -1,16 +1,39 @@
-import React from 'react';
+import { useState } from "react"; 
 import { FaGoogle,FaApple ,FaFacebookSquare } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { IoLogoElectron } from "react-icons/io5";
+import MakeApiRequest from '../Functions/AxiosApi';
+// import Cookies from "js-cookie";
+import config from '../Functions/Config';
+
 
 function Login() {
   const navigate = useNavigate()
   const handleNavigation = () => {
     navigate("/")
   }
-  const handleLead = () => {
-    navigate("/telecaller")
-  }
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const HandleLogin = () => {
+    MakeApiRequest('POST', `${config.baseUrl}authentication/login/`, headers, data)
+        .then((response) => {
+            console.log(response)
+           
+            navigate("/telecaller")
+           
+              
+
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+}
+  // const handleLead = () => {
+  //   navigate("/telecaller")
+  // }
   return (
     <div className="min-h-screen bg-[#5a70f0] flex flex-col  items-center justify-center ">
       <div className='mb-30 pr-48  flex items-center  text-white'><div className='text-7xl'><  IoLogoElectron /></div> <div className='text-2xl font-mono'>Telecall</div></div>
@@ -19,14 +42,21 @@ function Login() {
       <div className="bg-white p-8 rounded-tr-[100px] rounded-bl-[100px] mt-28 w-full sm:w-96">
         
         <h2 className="text-2xl font-bold mb-6 text-blue-500">Login</h2>
-        <form>
+        <form onSubmit={HandleLogin}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium  text-blue-500">Email</label>
+            {/* <label htmlFor="email" className="block text-sm font-medium  text-blue-500">Email</label>
             <input
               id="email"
               type="email"
               className="mt-1 block w-full px-3 py-2 border border-blue-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="you@example.com"
+            /> */}
+             <label htmlFor="username" className="block text-sm font-medium  text-blue-500">Username</label>
+            <input
+              id="username"
+              type="text"
+              className="mt-1 block w-full px-3 py-2 border border-blue-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="name"
             />
           </div>
           <div className="mb-6">
@@ -38,17 +68,13 @@ function Login() {
               placeholder="********"
             />
           </div>
-          {/* <div className="flex items-center justify-between"> */}
-            {/* <div className="flex items-center">
-              <input id="remember_me" type="checkbox" className="h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300 rounded"/>
-              <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">Remember me</label>
-            </div> */}
+         
             <div className="text-sm ml-36">
               <a href="#" className="font-medium text-blue-500 hover:text-blue-600">Forgot your password?</a>
             </div>
-          {/* </div> */}
+         
           
-        </form>
+        {/* </form> */}
         <div className="">
          
          
@@ -59,13 +85,15 @@ function Login() {
           </div>
          
         </div>
+        <div className="p-8   flex gap-3">
         
+        <p onClick={handleNavigation} className="text-sm text-blue-100">Don't have an account? <a href="#" className="font-medium text-blue-100 hover:text-blue-600">Sign up</a></p>
+        <button  type="submit" className="  text-blue-100  border border-blue-100 rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Sign in</button>
+        </div>
+        </form>
       </div>
-      <div className="p-8   flex gap-3">
-        
-          <p onClick={handleNavigation} className="text-sm text-blue-100">Don't have an account? <a href="#" className="font-medium text-blue-100 hover:text-blue-600">Sign up</a></p>
-          <button onClick={handleLead} type="submit" className="  text-blue-100  border border-blue-100 rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Sign in</button>
-          </div>
+     
+         
           </div>
     </div>
   );
