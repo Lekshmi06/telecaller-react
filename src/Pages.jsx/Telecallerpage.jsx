@@ -2,40 +2,47 @@ import React, { useState, useEffect } from 'react';
 import { IoCallOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { RiSearchLine } from "react-icons/ri";
-import Cookies from "js-cookie";
-import jwtDecode from 'jwt-decode';
-import jwt_decode from 'jwt-decode';
+ import { jwtDecode } from "jwt-decode";
+ import Cookies from 'js-cookie';
+import MakeApiRequest from '../Functions/AxiosApi';
 
+import config from '../Functions/Config';
 
 
 const TelecallerPage = () => {
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState('today');
+  const [activeSection, setActiveSection] = useState('today ');
   const [leadsData, setLeadsData] = useState([]);
-  const access_token = Cookies.get('access_token')
+  const token = Cookies.get('token');
+  const decodedToken = jwtDecode(token);
+  const id = decodedToken.id;
+  console.log(id,"id")
+  // const access_token = Cookies.get('access_token')
   useEffect(() => {
-    const userId = jwt_decode(access_token).id;
+    // const userId = jwt_decode(access_token).id;
 
     const fetchLeads = async () => {
       let url = '';
       if (activeSection === 'today') {
-        url = `http://127.0.0.1:8000/leads/todaylead/${userId}/`;
+        url = `http://127.0.0.1:8000/leads/todaylead/${id}/`;
       } else if (activeSection === 'followup') {
-        url = `http://127.0.0.1:8000/leads/followlead/${userId}/`;
+        url = `http://127.0.0.1:8000/leads/followlead/${id}/`;
       } else if (activeSection === 'assigned') {
-        url = `http://127.0.0.1:8000/leads/leadslist/${userId}/`;
+        url = `http://127.0.0.1:8000/leads/leadslist/${id}/`;
       }
 
       try {
+        console.log("inside request")
         const response = await MakeApiRequest('GET', url);
-        setLeadsData(response.data);
+        setLeadsData(response);
+        console.log(response, "lead")
       } catch (error) {
         console.error('Error fetching leads:', error);
       }
     };
 
     fetchLeads();
-  }, [activeSection, cookies.jwt]);
+  }, [activeSection]);
 
   const handleDetail = () => {
     navigate("/details");
@@ -46,6 +53,10 @@ const TelecallerPage = () => {
   };
 
   const renderLeads = () => {
+    if (!leadsData) {
+      return null; // or a loading indicator
+      console.log("loding.............................")
+    }
     return leadsData.map((lead, index) => (
       <div key={index} className="lead-container bg-white rounded-2xl p-4 flex items-center justify-between mb-4 shadow-lg">
         <div className="flex items-center">

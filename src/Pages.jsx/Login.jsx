@@ -3,6 +3,7 @@ import { FaGoogle,FaApple ,FaFacebookSquare } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { IoLogoElectron } from "react-icons/io5";
 import MakeApiRequest from '../Functions/AxiosApi';
+import Cookies from 'js-cookie';
 // import Cookies from "js-cookie";
 import config from '../Functions/Config';
 
@@ -27,9 +28,12 @@ function Login() {
       username: formData.username,
       password: formData.password,
     };
-    MakeApiRequest('POST', `${config.baseUrl}login/`,headers,  data)
+    MakeApiRequest('POST', `${config.baseUrl}leads/login`,headers,  data)
         .then((response) => {
-            console.log(response)
+          Cookies.set('token', response.access, { expires: 7 });
+          // const token = response.access;
+          // console.log(token,"token")
+            console.log(response,"data")
            
             navigate("/telecaller")
            
