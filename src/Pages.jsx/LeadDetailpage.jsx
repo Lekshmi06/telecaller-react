@@ -1,16 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { LiaLessThanSolid } from "react-icons/lia";
 import { FaArrowLeft,  FaStar } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import MakeApiRequest from '../Functions/AxiosApi';
+import config from '../Functions/Config';
 
 const LeadDetailPage = () => {
+  const [leadName, setLeadname] = useState("")
   const [selectedTimeline, setSelectedTimeline] = useState('today'); // 'today', 'thisWeek', 'thisMonth'
-  
+  const { id } = useParams();
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate()
   const handleButtonClick = (button) => {
     setActiveButton(button);
   };
+
+  const headers = {
+    'Content-Type': 'application/json',
+    
+  };
+
+  const handlePop = () => {
+    navigate(`/popup/${id}`)
+    console.log(id, "navigate")
+  }
+
+  useEffect (() => {
+    MakeApiRequest('GET', `${config.baseUrl}leads/lead/${id}/`, headers)
+    .then((response) => {
+      console.log(response, "data");
+      console.log(response.lead_name,"name has set")
+      setLeadname(response.lead_name)
+      
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    
+    });
+} ,[]);
 
   const handleTimelineChange = (timeline) => {
     setSelectedTimeline(timeline);
@@ -31,13 +60,14 @@ const LeadDetailPage = () => {
        
             
       </button>
-      <h1 className="text-3xl font-bold pt-8 px-4">Surej Sathyam</h1>
+      <h1 className="text-3xl font-bold pt-8 px-4">{leadName}</h1>
       <div className='text-[#eeb52f]  flex  gap-1 py-2 px-4 item-center '><div className='flex'><FaStar /><FaStar /><FaStar /><FaStar /><FaStar /></div> <div className='text-gray-700  text-lg '>5.0</div></div>
       <p className="text-sm mb-4 px-4 py-2 font-sans">currently working on a project that involves building a job portal using these technologies. </p>
 <div className="flex flex-row justify-around pl-15 pr-15">
       <button
         className={`rounded-full px-10 py-2 mr-2 ${activeButton === 'follow' ? 'bg-transparent  shadow-md  text-blue-600 font-semibold' : 'bg-blue-100 shadow-sm  text-gray-600 font-semibold'}`}
-        onClick={() => handleButtonClick('follow')}
+        // onClick={() => handleButtonClick('follow')}  
+        onClick={() =>  handlePop (id)}
       >
         FOLLOW
       </button>

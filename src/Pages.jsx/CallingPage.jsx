@@ -1,14 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {  FaRegPauseCircle, FaRegPlayCircle, FaRegStopCircle, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { MdAdd, MdSpeakerPhone, MdDialpad, MdPerson, MdNoteAdd } from 'react-icons/md';
 import { FaCircleUser } from "react-icons/fa6";
 import { MdCallEnd,  MdEditNote } from "react-icons/md";
 import { BsMicMuteFill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import MakeApiRequest from '../Functions/AxiosApi';
+
+
+import config from '../Functions/Config';
 const CallingPage = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const navigate = useNavigate()
+  const [leadName, setLeadname] = useState("")
+  const { id } = useParams();
+  console.log(id,"idgkhj, ")
+  
+  const headers = {
+    'Content-Type': 'application/json',
+    
+  };
+
+  useEffect (() => {
+    MakeApiRequest('GET', `${config.baseUrl}leads/lead/${id}/`, headers)
+    .then((response) => {
+      console.log(response, "data");
+      console.log(response.lead_name,"name has set")
+      setLeadname(response.lead_name)
+      
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    
+    });
+} ,[]);
+
   const handleToggleMute = () => {
     setIsMuted(!isMuted);
   };
@@ -18,7 +47,8 @@ const CallingPage = () => {
   };
 
   const handleNavigation = () => {
-    navigate("/popup")
+    navigate(`/popup/${id}`)
+    console.log(id, "navigate")
   }
 
   const handleEndCall = () => {
@@ -31,7 +61,7 @@ const CallingPage = () => {
        
       <div className="flex flex-col items-center  ">
         <FaCircleUser  className="text-9xl text-blue-300 mb-2" />
-        <h2 className="text-lg font-bold">Subash</h2>
+        <h2 className="text-lg font-bold">{leadName}</h2>
         <p className="text-sm">00:00</p>
       </div>
      

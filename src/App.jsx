@@ -20,9 +20,11 @@ function App() {
          <Route index element = {<Register/>} />
        <Route path = "/telecaller" element = {<TelecallerPage/>} />
          <Route path = "/login" element = {<Login/>} />
-        <Route path = "/calling" element = {<CallingPage/>} />
-        <Route path = "/popup" element = {<TelecallerPopup/>} />
-        <Route path = "/details" element = {<LeadDetailPage/>} />
+        {/* <Route path = "/calling" element = {<CallingPage/>} /> */}
+        <Route path="/calling/:id" element={<CallingPage />} />
+
+        <Route path = "/popup/:id" element = {<TelecallerPopup/>} />
+        <Route path = "/details/:id" element = {<LeadDetailPage/>} />
       {/* </Route> */}
     </Routes>
   
